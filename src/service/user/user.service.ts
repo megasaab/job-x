@@ -37,8 +37,8 @@ export class UsersService extends TypeOrmCrudService<User> {
       where:  { username } });
   }
 
-  async create(userDto: CreateUserDto): Promise<UserDto> {
-    const { username, password, email } = userDto;
+  async create(userDto: CreateUserDto): Promise<any> {
+    const { username, password, email, address } = userDto;
 
     // check if the user exists in the db
     const userInDb = await this.usersRepository.findOne({
@@ -48,7 +48,7 @@ export class UsersService extends TypeOrmCrudService<User> {
       throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
     }
 
-    const user: User = await this.usersRepository.create({ username, password, email, });
+    const user: User = await this.usersRepository.create({ username, password, email, address});
     await this.usersRepository.save(user);
     return toUserDto(user);
   }

@@ -1,5 +1,6 @@
-import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BeforeInsert, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import * as bcrypt from "bcrypt";
+import Address from "./address.entity";
 
 @Entity("user")
 export class User {
@@ -19,4 +20,11 @@ export class User {
 
   @Column({ nullable: true })
   password: string;
+
+  @OneToOne(() => Address, {
+    eager: true,
+    cascade: true
+  })
+  @JoinColumn()
+  public address: Address;
 }
